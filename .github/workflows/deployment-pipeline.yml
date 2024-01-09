@@ -2,6 +2,15 @@ name: Deployment Pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      deployment:
+        description: デプロイ方法の選択
+        required: true
+        default: 'Full'
+        type: choice
+        options:
+          - Full
+          - Web
   push:
 
 permissions:
@@ -32,18 +41,9 @@ jobs:
               - 'src/api/**'
 
   # バックエンドをデプロイする場合
-  backend-db-migrate:
+  backend-api:
     needs: [changes]
     if: ${{ needs.changes.outputs.backend == 'true' && needs.changes.outputs.frontend == 'true' }}
-    uses: ./.github/workflows/api-db-migrate.yml
-  backend-sidekiq:
-    needs: [backend-db-migrate]
-    uses: ./.github/workflows/api-deploy.yml
-  backend-cron-job:
-    needs: [backend-db-migrate]
-    uses: ./.github/workflows/api-deploy.yml
-  backend-api:
-    needs: [backend-db-migrate]
     uses: ./.github/workflows/api-deploy.yml
   frontend-web:
     needs: [backend-api]
