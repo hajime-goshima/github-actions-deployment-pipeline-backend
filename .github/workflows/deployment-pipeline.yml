@@ -1,0 +1,56 @@
+name: Deployment Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+
+permissions:
+  id-token: write
+  deployments: write
+  statuses: write
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.changes.outputs.frontend }}
+      backend: ${{ steps.changes.outputs.backend }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Changes
+        id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          base: ${{ github.ref }}
+          filters: |
+            frontend:
+              - 'src/web/**'
+            backend:
+              - 'src/api/**'
+
+  # バックエンドをデプロイする場合
+  backend-db-migrate:
+    needs: [changes]
+    if: ${{ needs.changes.outputs.backend == 'true' && needs.changes.outputs.frontend == 'true' }}
+    uses: ./.github/workflows/api-db-migrate.yml
+  backend-sidekiq:
+    needs: [backend-db-migrate]
+    uses: ./.github/workflows/api-deploy.yml
+  backend-cron-job:
+    needs: [backend-db-migrate]
+    uses: ./.github/workflows/api-deploy.yml
+  backend-api:
+    needs: [backend-db-migrate]
+    uses: ./.github/workflows/api-deploy.yml
+  frontend-web:
+    needs: [backend-api]
+    uses: ./.github/workflows/web-deploy.yml 
+
+  # フロントだけデプロイする場合
+  frontend-web-only:
+    needs: [changes]
+    if: ${{ needs.changes.outputs.backend == 'false' && needs.changes.outputs.frontend == 'true' }}
+    uses: ./.github/workflows/web-deploy.yml
