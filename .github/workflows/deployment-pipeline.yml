@@ -26,19 +26,8 @@ jobs:
       frontend: ${{ steps.changes.outputs.frontend }}
       backend: ${{ steps.changes.outputs.backend }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Changes
-        id: changes
-        uses: dorny/paths-filter@v2
-        with:
-          base: ${{ github.ref }}
-          filters: |
-            frontend:
-              - 'src/web/**'
-            backend:
-              - 'src/api/**'
+      - name: Start
+        run: echo "Deploy started!"
 
   # バックエンドをデプロイする場合
   backend-api:
