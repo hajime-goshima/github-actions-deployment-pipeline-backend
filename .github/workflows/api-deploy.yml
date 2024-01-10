@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   migrate:
-    name: Deploy
+    name: DB migrate
     runs-on: ubuntu-latest
 
     defaults:
@@ -30,4 +30,51 @@ jobs:
 
       - name: Deploy
         run: echo "I am doing a noop deploy"
-  
+
+  api:
+    needs: [migrate]
+    name: API Deploy
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./src/api
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        run: echo "I am doing a noop deploy"
+
+  sidekiq:
+    needs: [migrate]
+    name: Sidekiq Deploy
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./src/api
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        run: echo "I am doing a noop deploy"
+
+  job:
+    needs: [migrate]
+    name: Job Deploy
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./src/api
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        run: echo "I am doing a noop deploy"
