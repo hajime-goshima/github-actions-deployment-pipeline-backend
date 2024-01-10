@@ -21,9 +21,6 @@ permissions:
 jobs:
   changes:
     runs-on: ubuntu-latest
-    outputs:
-      frontend: ${{ steps.changes.outputs.frontend }}
-      backend: ${{ steps.changes.outputs.backend }}
     steps:
       - name: Start
         run: echo "Deploy started!"
