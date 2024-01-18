@@ -19,6 +19,7 @@ jobs:
   migrate:
     name: Deploy
     runs-on: ubuntu-latest
+    environment: web-nextjs/${{github.ref_name == 'main' && 'prod' || github.ref_name == 'develop' && 'stg'}}
 
     defaults:
       run:
