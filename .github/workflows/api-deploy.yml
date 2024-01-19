@@ -6,7 +6,7 @@ on:
     branches:
       - develop
     paths:
-      - 'src/api/**'
+      - 'packages/api-rails/**'
       - '.github/workflows/api-deploy.yml'
 
 permissions:
@@ -23,7 +23,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/api
+        working-directory: ./packages/api-rails
 
     steps:
       - name: Checkout

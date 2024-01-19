@@ -6,7 +6,7 @@ on:
     branches:
       - develop
     paths:
-      - 'src/web/**'
+      - 'packages/web-nextjs/**'
       - '.github/workflows/web-deploy.yml'
 
 permissions:
@@ -23,7 +23,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/web
+        working-directory: ./packages/web-nextjs
 
     steps:
       - name: Checkout
