@@ -23,7 +23,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/web
+        working-directory: ./packages/web-nextjs
 
     steps:
       - name: Checkout
