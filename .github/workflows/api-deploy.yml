@@ -47,10 +47,6 @@ jobs:
 
       - name: Deploy
         run: echo "I am doing a noop deploy"
-      - name: Echo Migrate Environment
-        run: echo "environment=${{ jobs.migrate.environment }}"
-      - name: Echo API Environment
-        run: echo "environment=${{ jobs.api.environment }}"
 
   sidekiq:
     needs: [migrate]
