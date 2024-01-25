@@ -55,7 +55,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/api
+        working-directory: ./packages/rails-api
 
     steps:
       - name: Checkout
@@ -71,7 +71,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/api
+        working-directory: ./packages/rails-api
 
     steps:
       - name: Checkout
