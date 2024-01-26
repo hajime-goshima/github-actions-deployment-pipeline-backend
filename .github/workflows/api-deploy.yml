@@ -32,6 +32,9 @@ jobs:
       - name: Deploy
         run: echo "I am doing a noop deploy"
 
+      - name: Echo vars
+        run: echo "HELLO=${{ vars.HELLO }}"
+
   api:
     needs: [migrate]
     name: API Deploy
@@ -47,6 +50,9 @@ jobs:
 
       - name: Deploy
         run: echo "I am doing a noop deploy"
+
+      - name: Echo vars
+        run: echo "HELLO=${{ vars.HELLO }}"
 
   sidekiq:
     needs: [migrate]

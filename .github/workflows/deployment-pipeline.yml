@@ -25,6 +25,9 @@ jobs:
       - name: Start
         run: echo "Deploy started!"
 
+      - name: Echo vars
+        run: echo "HELLO=${{ vars.HELLO }}"
+
   # バックエンドをデプロイする場合
   backend-api:
     needs: [changes]
