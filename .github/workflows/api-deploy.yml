@@ -25,6 +25,9 @@ jobs:
       run:
         working-directory: ./packages/api-rails
 
+    outputs:
+      imagename: ${{ steps.out.outputs.image }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,6 +37,10 @@ jobs:
 
       - name: Echo vars
         run: echo "HELLO=${{ vars.HELLO }}"
+
+      - name: Set Outputs
+        id: out
+        run: echo "image=testoutputimagename" >> $GITHUB_OUTPUT
 
   api:
     needs: [migrate]
@@ -53,6 +60,9 @@ jobs:
 
       - name: Echo vars
         run: echo "HELLO=${{ vars.HELLO }}"
+
+      - name: Echo output 
+        run: echo "image=${{ jobs.migrate.outputs.image }}"
 
   sidekiq:
     needs: [migrate]
