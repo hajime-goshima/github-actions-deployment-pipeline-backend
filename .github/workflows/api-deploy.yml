@@ -16,8 +16,8 @@ permissions:
   contents: read
 
 jobs:
-  migrate:
-    name: DB migrate
+  build:
+    name: Build image
     runs-on: ubuntu-latest
     environment: api-rails/${{github.ref_name == 'main' && 'prod' || github.ref_name == 'develop' && 'stg'}}
 
@@ -42,6 +42,29 @@ jobs:
         id: out
         run: echo "image=testoutputimagename" >> $GITHUB_OUTPUT
 
+  migrate:
+    needs: [build]
+    name: DB migrate
+    runs-on: ubuntu-latest
+    environment: api-rails/${{github.ref_name == 'main' && 'prod' || github.ref_name == 'develop' && 'stg'}}
+
+    defaults:
+      run:
+        working-directory: ./packages/api-rails
+
+    outputs:
+      image: ${{ steps.out.outputs.image }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        run: echo "I am doing a noop deploy"
+
+      - name: Echo output 
+        run: echo "image=${{ needs.migrate.outputs.image }}"
+
   api:
     needs: [migrate]
     name: API Deploy
@@ -50,9 +73,6 @@ jobs:
     defaults:
       run:
         working-directory: ./packages/api-rails
-
-    env:
-      IMAGE: ${{ needs.migrate.outputs.image }}
 
     steps:
       - name: Checkout
@@ -65,7 +85,7 @@ jobs:
         run: echo "HELLO=${{ vars.HELLO }}"
 
       - name: Echo output 
-        run: echo "image=$IMAGE"
+        run: echo "image=${{ needs.migrate.outputs.image }}"
 
   sidekiq:
     needs: [migrate]
