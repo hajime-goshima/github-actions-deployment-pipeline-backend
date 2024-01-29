@@ -51,6 +51,9 @@ jobs:
       run:
         working-directory: ./packages/api-rails
 
+    env:
+      IMAGE: ${{ jobs.migrate.outputs.image }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -62,7 +65,7 @@ jobs:
         run: echo "HELLO=${{ vars.HELLO }}"
 
       - name: Echo output 
-        run: echo "image=${{ jobs.migrate.outputs.image }}"
+        run: echo "image=$IMAGE"
 
   sidekiq:
     needs: [migrate]
