@@ -26,7 +26,7 @@ jobs:
         working-directory: ./packages/api-rails
 
     outputs:
-      imagename: ${{ steps.out.outputs.image }}
+      image: ${{ steps.out.outputs.image }}
 
     steps:
       - name: Checkout
