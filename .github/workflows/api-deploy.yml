@@ -48,9 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: api-rails/${{github.ref_name == 'main' && 'prod' || github.ref_name == 'develop' && 'stg'}}
 
-    outputs:
-      image: ${{ steps.out.outputs.image }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,9 +58,12 @@ jobs:
       - name: Echo output 
         run: echo "image=${{ needs.build.outputs.image }}"
 
-      - name: Set Outputs
-        id: out
-        run: echo "image=${{ needs.build.outputs.image }}" >> $GITHUB_OUTPUT
+      # - name: Set Outputs
+      #   id: out
+      #   run: echo "image=${{ needs.build.outputs.image }}" >> $GITHUB_OUTPUT
+    
+    outputs:
+      image: ${{ needs.build.outputs.image }}
 
   api:
     needs: [migrate]
