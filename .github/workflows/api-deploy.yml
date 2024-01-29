@@ -52,7 +52,7 @@ jobs:
         working-directory: ./packages/api-rails
 
     env:
-      IMAGE: ${{ jobs.migrate.outputs.image }}
+      IMAGE: ${{ needs.migrate.outputs.image }}
 
     steps:
       - name: Checkout
