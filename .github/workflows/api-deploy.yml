@@ -65,6 +65,10 @@ jobs:
       - name: Echo output 
         run: echo "image=${{ needs.build.outputs.image }}"
 
+      - name: Set Outputs
+        id: out
+        run: echo "image=${{ needs.build.outputs.image }}" >> $GITHUB_OUTPUT
+
   api:
     needs: [migrate]
     name: API Deploy
@@ -85,7 +89,7 @@ jobs:
         run: echo "HELLO=${{ vars.HELLO }}"
 
       - name: Echo output 
-        run: echo "image=${{ needs.build.outputs.image }}"
+        run: echo "image=${{ needs.migrate.outputs.image }}"
 
   sidekiq:
     needs: [migrate]
