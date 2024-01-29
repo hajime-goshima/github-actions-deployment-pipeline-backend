@@ -15,15 +15,15 @@ permissions:
   statuses: write
   contents: read
 
+defaults:
+  run:
+    working-directory: ./packages/api-rails
+    
 jobs:
   build:
     name: Build image
     runs-on: ubuntu-latest
     environment: api-rails/${{github.ref_name == 'main' && 'prod' || github.ref_name == 'develop' && 'stg'}}
-
-    defaults:
-      run:
-        working-directory: ./packages/api-rails
 
     outputs:
       image: ${{ steps.out.outputs.image }}
@@ -48,10 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: api-rails/${{github.ref_name == 'main' && 'prod' || github.ref_name == 'develop' && 'stg'}}
 
-    defaults:
-      run:
-        working-directory: ./packages/api-rails
-
     outputs:
       image: ${{ steps.out.outputs.image }}
 
@@ -74,10 +70,6 @@ jobs:
     name: API Deploy
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./packages/api-rails
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -96,10 +88,6 @@ jobs:
     name: Sidekiq Deploy
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./packages/api-rails
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -111,10 +99,6 @@ jobs:
     needs: [migrate]
     name: Job Deploy
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./packages/api-rails
 
     steps:
       - name: Checkout
