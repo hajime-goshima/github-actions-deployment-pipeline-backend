@@ -63,7 +63,7 @@ jobs:
         run: echo "I am doing a noop deploy"
 
       - name: Echo output 
-        run: echo "image=${{ needs.migrate.outputs.image }}"
+        run: echo "image=${{ needs.build.outputs.image }}"
 
   api:
     needs: [migrate]
@@ -85,7 +85,7 @@ jobs:
         run: echo "HELLO=${{ vars.HELLO }}"
 
       - name: Echo output 
-        run: echo "image=${{ needs.migrate.outputs.image }}"
+        run: echo "image=${{ needs.build.outputs.image }}"
 
   sidekiq:
     needs: [migrate]
